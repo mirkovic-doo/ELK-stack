@@ -196,15 +196,24 @@ In order to authenticate with Elastic APM, you will need the following:
 - Import the package in your application and call the start function, In case of NodeJS based application you can do the following:
 
 ```
-const apm = require('elastic-apm-node').start({
-  serviceName: 'foobar',
-  secretToken: devops,
-  // https is enabled by default as per elastdocker configuration
-  serverUrl: 'https://localhost:8200',
-  ServerCert: copy path to apm-server.crt from apm-server docker container
+Add this nuget package
+<PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.28.4" />
 
-})
+Add this to appsettings.json
+
+"ElasticApm": {
+    "ServiceName": "user-service",
+    "SecretToken": "devops",
+    "ServerUrl": "https://localhost:8200",
+    "Environment": "local",
+    "ServerCert": "C:\\Users\\Fieldmatic\\Desktop\\GitHub\\ELK-stack\\secrets\\certs\\apm-server\\apm-server.crt"
+  }
 ```
+
+In Program.cs add next line: 
+
+builder.Services.AddElasticApm();
+
 > Make sure that the agent is started before you require any other modules in your Node.js application - i.e. before express, http, etc. as mentioned in [Elastic APM Agent - NodeJS initialization](https://www.elastic.co/guide/en/apm/agent/nodejs/master/express.html#express-initialization)
 
 For more details or other languages you can check the following:
