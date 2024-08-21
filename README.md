@@ -192,29 +192,26 @@ In order to authenticate with Elastic APM, you will need the following:
 
 - The value of `ELASTIC_APM_SECRET_TOKEN` defined in `.env` file as we have [secret token](https://www.elastic.co/guide/en/apm/guide/master/secret-token.html) enabled by default
 - The ability to reach port `8200`
-- Install elastic apm client in your application e.g. for NodeJS based applications you need to install [elastic-apm-node](https://www.elastic.co/guide/en/apm/agent/nodejs/master/typescript.html)
-- Import the package in your application and call the start function, In case of NodeJS based application you can do the following:
+- Import the package in your application and call the start function, In case of ASP.NET core based application you can do the following:
 
 ```
 Add this nuget package
 <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.28.4" />
 
-Add this to appsettings.json
+Add this to appsettings.Development.json
 
 "ElasticApm": {
     "ServiceName": "user-service",
     "SecretToken": "devops",
-    "ServerUrl": "https://localhost:8200",
-    "Environment": "local",
-    "ServerCert": "C:\\Users\\Fieldmatic\\Desktop\\GitHub\\ELK-stack\\secrets\\certs\\apm-server\\apm-server.crt"
+    "ServerUrl": "https://elastic-apm-server-1:8200",
+    "Environment": "development",
+    "ServerCert": "certs/apm-server/apm-server.crt"
   }
 ```
 
 In Program.cs add next line: 
 
 builder.Services.AddElasticApm();
-
-> Make sure that the agent is started before you require any other modules in your Node.js application - i.e. before express, http, etc. as mentioned in [Elastic APM Agent - NodeJS initialization](https://www.elastic.co/guide/en/apm/agent/nodejs/master/express.html#express-initialization)
 
 For more details or other languages you can check the following:
 - [APM Agents in different languages](https://www.elastic.co/guide/en/apm/agent/index.html)
