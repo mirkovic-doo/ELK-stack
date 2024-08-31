@@ -4,9 +4,11 @@
 <h2 align="center"><b>Elast</b>ic Stack on <b>Docker</b></h2>
 
 # Introduction
+
 Elastic Stack (**ELK**) Docker Composition, preconfigured with **Security**, **Monitoring**, and **Tools**; Up with a Single Command.
 
-Stack Version: [8.10.2](https://www.elastic.co/blog/whats-new-elastic-8-10-0) 🎉  - Based on [Official Elastic Docker Images](https://www.docker.elastic.co/)
+Stack Version: [8.15.0](https://www.elastic.co/blog/whats-new-elastic-8-10-0) 🎉 - Based on [Official Elastic Docker Images](https://www.docker.elastic.co/)
+
 > You can change Elastic Stack version by setting `ELK_VERSION` in `.env` file and rebuild your images. Any version >= 8.0.0 is compatible with this template.
 
 ### Main Features 📜
@@ -29,6 +31,7 @@ Stack Version: [8.10.2](https://www.elastic.co/blog/whats-new-elastic-8-10-0) �
 - Embedded Container Healthchecks for Stack Images.
 
 #### More points
+
 <details><summary>Expand...</summary>
 <p>
 
@@ -60,7 +63,7 @@ Elastdocker differs from `deviantony/docker-elk` in the following points.
 </p>
 </details>
 
------
+---
 
 # Requirements
 
@@ -71,26 +74,26 @@ Elastdocker differs from `deviantony/docker-elk` in the following points.
 # Setup
 
 1. Clone the Repository
-     ```bash
-     git clone https://github.com/sherifabdlnaby/elastdocker.git
-     ```
+   ```bash
+   git clone https://github.com/sherifabdlnaby/elastdocker.git
+   ```
 2. Initialize Elasticsearch Keystore and TLS Self-Signed Certificates
-    ```bash
-    $ make setup
-    ```
-    > **For Linux's docker hosts only**. By default virtual memory [is not enough](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html) so run the next command as root `sysctl -w vm.max_map_count=262144`
+   ```bash
+   $ make setup
+   ```
+   > **For Linux's docker hosts only**. By default virtual memory [is not enough](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html) so run the next command as root `sysctl -w vm.max_map_count=262144`
 3. Start Elastic Stack
-    ```bash
-    $ make elk           <OR>         $ docker-compose up -d		<OR>		$ docker compose up -d
-    ```
+   ```bash
+   $ make elk           <OR>         $ docker-compose up -d		<OR>		$ docker compose up -d
+   ```
 4. Visit Kibana at [https://localhost:5601](https://localhost:5601) or `https://<your_public_ip>:5601`
 
-    Default Username: `elastic`, Password: `changeme`
+   Default Username: `elastic`, Password: `changeme`
 
-    > - Notice that Kibana is configured to use HTTPS, so you'll need to write `https://` before `localhost:5601` in the browser.
-    > - Modify `.env` file for your needs, most importantly `ELASTIC_PASSWORD` that setup your superuser `elastic`'s password, `ELASTICSEARCH_HEAP` & `LOGSTASH_HEAP` for Elasticsearch & Logstash Heap Size.
-    
-> Whatever your Host (e.g AWS EC2, Azure, DigitalOcean, or on-premise server), once you expose your host to the network, ELK component will be accessible on their respective ports. Since the enabled TLS uses a self-signed certificate, it is recommended to SSL-Terminate public traffic using your signed certificates. 
+   > - Notice that Kibana is configured to use HTTPS, so you'll need to write `https://` before `localhost:5601` in the browser.
+   > - Modify `.env` file for your needs, most importantly `ELASTIC_PASSWORD` that setup your superuser `elastic`'s password, `ELASTICSEARCH_HEAP` & `LOGSTASH_HEAP` for Elasticsearch & Logstash Heap Size.
+
+> Whatever your Host (e.g AWS EC2, Azure, DigitalOcean, or on-premise server), once you expose your host to the network, ELK component will be accessible on their respective ports. Since the enabled TLS uses a self-signed certificate, it is recommended to SSL-Terminate public traffic using your signed certificates.
 
 > 🏃🏻‍♂️ To start ingesting logs, you can start by running `make collect-docker-logs` which will collect your host's container logs.
 
@@ -100,31 +103,43 @@ Elastdocker differs from `deviantony/docker-elk` in the following points.
 <p>
 
 #### To Start Monitoring and Prometheus Exporters
+
 ```shell
 $ make monitoring
 ```
-#### To Ship Docker Container Logs to ELK 
+
+#### To Ship Docker Container Logs to ELK
+
 ```shell
 $ make collect-docker-logs
 ```
+
 #### To Start **Elastic Stack, Tools and Monitoring**
+
 ```
 $ make all
 ```
+
 #### To Start 2 Extra Elasticsearch nodes (recommended for experimenting only)
+
 ```shell
 $ make nodes
 ```
+
 #### To Rebuild Images
+
 ```shell
 $ make build
 ```
+
 #### Bring down the stack.
+
 ```shell
 $ make down
 ```
 
 #### Reset everything, Remove all containers, and delete **DATA**!
+
 ```shell
 $ make prune
 ```
@@ -134,28 +149,28 @@ $ make prune
 
 # Configuration
 
-* Some Configuration are parameterized in the `.env` file.
-  * `ELASTIC_PASSWORD`, user `elastic`'s password (default: `changeme` _pls_).
-  * `ELK_VERSION` Elastic Stack Version (default: `8.10.2`)
-  * `ELASTICSEARCH_HEAP`, how much Elasticsearch allocate from memory (default: 1GB -good for development only-)
-  * `LOGSTASH_HEAP`, how much Logstash allocate from memory.
-  * Other configurations which their such as cluster name, and node name, etc.
-* Elasticsearch Configuration in `elasticsearch.yml` at `./elasticsearch/config`.
-* Logstash Configuration in `logstash.yml` at `./logstash/config/logstash.yml`.
-* Logstash Pipeline in `main.conf` at `./logstash/pipeline/main.conf`.
-* Kibana Configuration in `kibana.yml` at `./kibana/config`.
+- Some Configuration are parameterized in the `.env` file.
+  - `ELASTIC_PASSWORD`, user `elastic`'s password (default: `changeme` _pls_).
+  - `ELK_VERSION` Elastic Stack Version (default: `8.15.0`)
+  - `ELASTICSEARCH_HEAP`, how much Elasticsearch allocate from memory (default: 1GB -good for development only-)
+  - `LOGSTASH_HEAP`, how much Logstash allocate from memory.
+  - Other configurations which their such as cluster name, and node name, etc.
+- Elasticsearch Configuration in `elasticsearch.yml` at `./elasticsearch/config`.
+- Logstash Configuration in `logstash.yml` at `./logstash/config/logstash.yml`.
+- Logstash Pipeline in `main.conf` at `./logstash/pipeline/main.conf`.
+- Kibana Configuration in `kibana.yml` at `./kibana/config`.
 
 ### Setting Up Keystore
 
 You can extend the Keystore generation script by adding keys to `./setup/keystore.sh` script. (e.g Add S3 Snapshot Repository Credentials)
 
 To Re-generate Keystore:
+
 ```
 make keystore
 ```
 
 ### Notes
-
 
 - ⚠️ Elasticsearch HTTP layer is using SSL, thus mean you need to configure your elasticsearch clients with the `CA` in `secrets/certs/ca/ca.crt`, or configure client to ignore SSL Certificate Verification (e.g `--insecure` in `curl`).
 
@@ -170,12 +185,12 @@ make keystore
 - Make sure to run `make setup` if you changed `ELASTIC_PASSWORD` and to restart the stack afterwards.
 
 - For Linux Users it's recommended to set the following configuration (run as `root`)
-    ```
-    sysctl -w vm.max_map_count=262144
-    ```
-    By default, Virtual Memory [is not enough](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html).
+  ```
+  sysctl -w vm.max_map_count=262144
+  ```
+  By default, Virtual Memory [is not enough](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html).
 
----------------------------
+---
 
 ![Intro](https://user-images.githubusercontent.com/16992394/156664447-c24c49f4-4282-4d6a-81a7-10743cfa384e.png)
 ![Alerting](https://user-images.githubusercontent.com/16992394/156664848-d14f5e58-8f80-497d-a841-914c05a4b69c.png)
@@ -205,15 +220,19 @@ Add this to appsettings.Development.json
     "SecretToken": "devops",
     "ServerUrl": "https://elastic-apm-server-1:8200",
     "Environment": "development",
-    "ServerCert": "certs/apm-server/apm-server.crt"
+    "ServerCert": "certs/apm-server/apm-server.crt",
+    "TransactionSampleRate": 1.0,
+    "MetricsInterval": "15s",
+    "UseElasticApmMetrics": true
   }
 ```
 
-In Program.cs add next line: 
+In Program.cs add next line:
 
-builder.Services.AddElasticApm();
+builder.Services.AddAllElasticApm();
 
 For more details or other languages you can check the following:
+
 - [APM Agents in different languages](https://www.elastic.co/guide/en/apm/agent/index.html)
 
 # Monitoring The Cluster
@@ -228,11 +247,12 @@ Head to Stack Monitoring tab in Kibana to see cluster metrics for all stack comp
 > In Production, cluster metrics should be shipped to another dedicated monitoring cluster.
 
 ### Via Prometheus Exporters
+
 If you started Prometheus Exporters using `make monitoring` command. Prometheus Exporters will expose metrics at the following ports.
 
-| **Prometheus Exporter**      | **Port**     | **Recommended Grafana Dashboard**                                         |
-|--------------------------    |----------    |------------------------------------------------  |
-| `elasticsearch-exporter`     | `9114`       | [Elasticsearch by Kristian Jensen](https://grafana.com/grafana/dashboards/4358)                                                |
-| `logstash-exporter`          | `9304`       | [logstash-monitoring by dpavlos](https://github.com/dpavlos/logstash-monitoring)                                               |
+| **Prometheus Exporter**  | **Port** | **Recommended Grafana Dashboard**                                                |
+| ------------------------ | -------- | -------------------------------------------------------------------------------- |
+| `elasticsearch-exporter` | `9114`   | [Elasticsearch by Kristian Jensen](https://grafana.com/grafana/dashboards/4358)  |
+| `logstash-exporter`      | `9304`   | [logstash-monitoring by dpavlos](https://github.com/dpavlos/logstash-monitoring) |
 
 ![Metrics](https://user-images.githubusercontent.com/16992394/78685076-89a58900-78f1-11ea-959b-ce374fe51500.jpg)
